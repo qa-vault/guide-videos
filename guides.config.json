@@ -1,0 +1,49 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "storageState": "",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "scale": 2,
+  "colorScheme": "dark",
+  "headless": false,
+  "fps": 60,
+  "inflight": 2,
+  "theme": {
+    "font": "Inter, system-ui, sans-serif",
+    "monoFont": "\"JetBrains Mono\", ui-monospace, monospace",
+    "accent": "#2FB6F3",
+    "accentText": "#4CC3F7",
+    "text": "#E6E9EC",
+    "muted": "#9AA3AC",
+    "scrim": "rgba(10,12,14,.55)",
+    "cursorFill": "#FFFFFF",
+    "cursorStroke": "#0A0C0E"
+  },
+  "timing": {
+    "introCardMs": 4000,
+    "outroCardMs": 4000,
+    "cueGapMs": 120,
+    "typeDelayMs": 8,
+    "moveMs": 400,
+    "clickPauseMs": 200,
+    "afterClickMs": 200,
+    "afterKeyMs": 300,
+    "afterTypeMs": 300,
+    "afterCardMs": 500
+  },
+  "dirs": {
+    "videos": "videos"
+  },
+  "voice": {
+    "enabled": true,
+    "voiceId": "",
+    "modelId": "eleven_multilingual_v2",
+    "outputFormat": "pcm_44100",
+    "stability": 0.5,
+    "similarityBoost": 0.75,
+    "speed": 1.1,
+    "tailMs": 150
+  }
+}

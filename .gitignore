@@ -1,0 +1,8 @@
+.env
+node_modules/
+videos/
+.DS_Store
+storage-state.json
+guides.config.local.json
+.stryker-tmp/
+reports/

@@ -1,0 +1,25 @@
+{
+  "name": "guide-videos",
+  "private": true,
+  "type": "module",
+  "description": "Scripted product guide videos: Playwright recorder, ElevenLabs narration, ffmpeg build",
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.67.0",
+    "playwright": "^1.63.0"
+  },
+  "license": "MIT",
+  "version": "0.1.0",
+  "author": "Andrii Lysenko",
+  "devDependencies": {
+    "@stryker-mutator/core": "^10.0.0",
+    "@stryker-mutator/vitest-runner": "^10.0.0",
+    "fast-check": "^4.9.0",
+    "msw": "^2.15.0",
+    "vitest": "^4.1.11"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.mjs",
+    "test:mutation": "stryker run"
+  }
+}

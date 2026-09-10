@@ -1,0 +1,190 @@
+{
+  "scenario": "invite-teammate",
+  "title": "Inviting a teammate",
+  "size": {
+    "width": 2880,
+    "height": 1800
+  },
+  "scale": 2,
+  "fps": 60,
+  "durationMs": 43936,
+  "pointer": {
+    "hotspot": [
+      3,
+      2
+    ],
+    "moves": [
+      {
+        "t0": 11907,
+        "t1": 12307,
+        "from": [
+          720,
+          450
+        ],
+        "to": [
+          1147.2265625,
+          137
+        ]
+      },
+      {
+        "t0": 21312,
+        "t1": 21712,
+        "from": [
+          1147.2265625,
+          137
+        ],
+        "to": [
+          720,
+          426
+        ]
+      },
+      {
+        "t0": 23460,
+        "t1": 23860,
+        "from": [
+          720,
+          426
+        ],
+        "to": [
+          720,
+          507
+        ]
+      },
+      {
+        "t0": 27976,
+        "t1": 28376,
+        "from": [
+          720,
+          507
+        ],
+        "to": [
+          720,
+          571.25
+        ]
+      },
+      {
+        "t0": 29520,
+        "t1": 29920,
+        "from": [
+          720,
+          571.25
+        ],
+        "to": [
+          848.3359375,
+          567
+        ]
+      }
+    ],
+    "clicks": [
+      {
+        "t": 12651,
+        "x": 1147.2265625,
+        "y": 137
+      },
+      {
+        "t": 22095,
+        "x": 720,
+        "y": 426
+      },
+      {
+        "t": 24297,
+        "x": 720,
+        "y": 507
+      },
+      {
+        "t": 28811,
+        "x": 720,
+        "y": 571.25
+      },
+      {
+        "t": 30339,
+        "x": 848.3359375,
+        "y": 567
+      }
+    ]
+  },
+  "intro": {
+    "eyebrow": "Guide 1 of 1",
+    "title": "Inviting a teammate",
+    "text": "In this guide we invite a teammate to the workspace. Open the members page, enter an email address and choose a role. The invitation is sent right away."
+  },
+  "outro": {
+    "eyebrow": "Done",
+    "title": "That's it",
+    "text": "The invitation stays pending until the teammate accepts it. You can resend or revoke it from the same list."
+  },
+  "chapters": [
+    {
+      "start": 11835,
+      "title": "Invite member"
+    },
+    {
+      "start": 17551,
+      "title": "Email and role"
+    },
+    {
+      "start": 29117,
+      "title": "Send"
+    }
+  ],
+  "cues": [
+    {
+      "start": 1207,
+      "text": "In this guide we invite a teammate to the workspace. Open the members page, enter an email address and choose a role. The invitation is sent right away.",
+      "end": 11214,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/05dfad7d874306df.wav"
+    },
+    {
+      "start": 11907,
+      "text": "On the Members page, click Invite member in the top-right corner.",
+      "end": 16629,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/41acf0dae1c82374.wav"
+    },
+    {
+      "start": 16749,
+      "text": "A dialog opens with two fields: the email address and the role.",
+      "end": 21192,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/98780354c92bcc07.wav"
+    },
+    {
+      "start": 21312,
+      "text": "Type the teammate's email address.",
+      "end": 23340,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/78c4582fc4d886f6.wav"
+    },
+    {
+      "start": 23460,
+      "text": "Then pick a role. Members can edit, viewers can only read.",
+      "end": 27856,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/cfb8c030595fbce2.wav"
+    },
+    {
+      "start": 27976,
+      "text": "We choose Member.",
+      "end": 29400,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/afc44ab4d57c9377.wav"
+    },
+    {
+      "start": 29520,
+      "text": "Click Send invitation.",
+      "end": 31455,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/6751360d2447272f.wav"
+    },
+    {
+      "start": 31575,
+      "text": "The teammate appears in the list as pending, and an email is on its way.",
+      "end": 36046,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/ae50f0aab02b8a8f.wav"
+    },
+    {
+      "start": 36249,
+      "text": "The invitation stays pending until the teammate accepts it. You can resend or revoke it from the same list.",
+      "end": 42973,
+      "voice": "/Users/andrei/projects/andrii/plugins/guide-videos/videos/invite-teammate/narration/661cac55720b4286.wav"
+    }
+  ],
+  "voice": {
+    "voiceId": "TX3LPaxmHKxFdv7VOQHJ",
+    "modelId": "eleven_multilingual_v2"
+  }
+}

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Members · Northwind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: dark; --bg:#0F1214; --surface:#151A1E; --raised:#1C2227; --border:#262D33; --text:#E6E9EC; --muted:#9AA3AC; --accent:#2FB6F3; --accent-text:#4CC3F7; --ok:#3DD68C; --warn:#F2B44C; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 Inter, system-ui, sans-serif; }
+  .top { height:56px; border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 28px; gap:28px; background:var(--surface); }
+  .brand { font-weight:600; letter-spacing:.01em; display:flex; align-items:center; gap:10px; }
+  .brand i { width:22px; height:22px; border-radius:6px; background:linear-gradient(135deg,var(--accent),#7D5CFF); display:inline-block; }
+  nav a { color:var(--muted); text-decoration:none; margin-right:22px; font-size:14px; }
+  nav a[aria-current] { color:var(--text); }
+  .avatar { margin-left:auto; width:30px; height:30px; border-radius:50%; background:#3A4750; }
+  main { max-width:1040px; margin:40px auto; padding:0 28px; }
+  .head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:22px; }
+  h1 { font-size:24px; font-weight:600; margin:0 0 4px; }
+  .sub { color:var(--muted); font-size:14px; }
+  .btn { font:inherit; font-weight:500; font-size:14px; border-radius:8px; padding:0 16px; height:40px; cursor:pointer; border:1px solid var(--border); background:var(--raised); color:var(--text); }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#06232F; }
+  .btn.primary:hover { filter:brightness(1.08); }
+  table { width:100%; border-collapse:collapse; background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  th, td { text-align:left; padding:13px 16px; border-bottom:1px solid var(--border); }
+  th { font:500 11px/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  tr:last-child td { border-bottom:0; }
+  .who { display:flex; align-items:center; gap:12px; }
+  .who i { width:32px; height:32px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:#06232F; }
+  .email { color:var(--muted); font-size:13px; }
+  .chip { font:500 11px/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.06em; text-transform:uppercase; padding:5px 8px; border-radius:6px; border:1px solid var(--border); color:var(--muted); }
+  .chip.ok { color:var(--ok); border-color:rgba(61,214,140,.35); }
+  .chip.warn { color:var(--warn); border-color:rgba(242,180,76,.35); }
+  dialog { background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:0; width:440px; }
+  dialog::backdrop { background:rgba(6,8,10,.6); }
+  .dlg { padding:24px; }
+  .dlg h2 { margin:0 0 4px; font-size:18px; font-weight:600; }
+  .dlg p { margin:0 0 20px; color:var(--muted); font-size:14px; }
+  label { display:block; font:500 11px/1 "JetBrains Mono", ui-monospace, monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 8px; }
+  .field { margin-bottom:18px; position:relative; }
+  input, .combo { font:inherit; width:100%; height:44px; padding:0 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text); text-align:left; }
+  input:focus, .combo:focus { outline:none; border-color:var(--accent); }
+  .combo { display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+  .combo::after { content:""; width:8px; height:8px; border-right:1.5px solid var(--muted); border-bottom:1.5px solid var(--muted); transform:rotate(45deg) translateY(-3px); }
+  [role=listbox] { position:absolute; left:0; right:0; top:100%; margin:6px 0 0; padding:6px; list-style:none; background:var(--raised); border:1px solid var(--border); border-radius:8px; z-index:2; }
+  [role=listbox][hidden] { display:none; }
+  [role=option] { padding:9px 10px; border-radius:6px; cursor:pointer; }
+  [role=option] small { display:block; color:var(--muted); font-size:12px; }
+  [role=option]:hover, [role=option][aria-selected=true] { background:rgba(47,182,243,.12); }
+  .actions { display:flex; justify-content:flex-end; gap:10px; margin-top:8px; }
+  .toast { position:fixed; left:50%; bottom:28px; transform:translateX(-50%); background:var(--raised); border:1px solid rgba(61,214,140,.4); color:var(--text); padding:11px 16px; border-radius:10px; font-size:14px; display:flex; gap:10px; align-items:center; }
+  .toast b { color:var(--ok); font-weight:600; }
+  .toast[hidden] { display:none; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><i></i>Northwind</div>
+  <nav><a href="#">Projects</a><a href="#">Reports</a><a href="#" aria-current="page">Settings</a></nav>
+  <div class="avatar"></div>
+</header>
+<main>
+  <div class="head">
+    <div><h1>Members</h1><div class="sub">People who can access the Northwind workspace.</div></div>
+    <button class="btn primary" id="open">Invite member</button>
+  </div>
+  <table>
+    <thead><tr><th>Member</th><th>Role</th><th>Status</th><th>Joined</th></tr></thead>
+    <tbody id="rows">
+      <tr><td><div class="who"><i style="background:#F2B44C">AR</i><div>Alex Rivera<div class="email">alex@northwind.dev</div></div></div></td><td>Owner</td><td><span class="chip ok">Active</span></td><td>Mar 3, 2026</td></tr>
+      <tr><td><div class="who"><i style="background:#3DD68C">JK</i><div>Jordan Kim<div class="email">jordan@northwind.dev</div></div></div></td><td>Member</td><td><span class="chip ok">Active</span></td><td>Apr 18, 2026</td></tr>
+      <tr><td><div class="who"><i style="background:#7D5CFF">SP</i><div>Sam Patel<div class="email">sam@northwind.dev</div></div></div></td><td>Viewer</td><td><span class="chip ok">Active</span></td><td>Jul 9, 2026</td></tr>
+    </tbody>
+  </table>
+</main>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <form class="dlg" method="dialog" id="form">
+    <h2 id="dlg-title">Invite a teammate</h2>
+    <p>They will get an email with a link to join the workspace.</p>
+    <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="name@company.com" autocomplete="off" required></div>
+    <div class="field">
+      <label id="role-label">Role</label>
+      <button type="button" class="combo" id="combo" role="combobox" aria-labelledby="role-label" aria-haspopup="listbox" aria-expanded="false" aria-controls="roles"><span id="role-value">Select a role</span></button>
+      <ul id="roles" role="listbox" aria-labelledby="role-label" hidden>
+        <li role="option" data-v="Member">Member<small>Can view and edit everything in the workspace</small></li>
+        <li role="option" data-v="Viewer">Viewer<small>Read-only access</small></li>
+      </ul>
+    </div>
+    <div class="actions"><button type="button" class="btn" id="cancel">Cancel</button><button type="submit" class="btn primary" id="send">Send invitation</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast" hidden><b>✓</b>Invitation sent</div>
+
+<script>
+  const $ = (s) => document.querySelector(s);
+  let role = "";
+  $("#open").onclick = () => { $("#form").reset(); role = ""; $("#role-value").textContent = "Select a role"; $("#dlg").showModal(); };
+  $("#cancel").onclick = () => $("#dlg").close();
+  const combo = $("#combo"), list = $("#roles");
+  combo.onclick = () => { const open = list.hidden; list.hidden = !open; combo.setAttribute("aria-expanded", String(open)); };
+  list.querySelectorAll("[role=option]").forEach((o) => o.onclick = () => {
+    role = o.dataset.v; $("#role-value").textContent = role;
+    list.querySelectorAll("[role=option]").forEach((x) => x.setAttribute("aria-selected", String(x === o)));
+    list.hidden = true; combo.setAttribute("aria-expanded", "false");
+  });
+  $("#form").onsubmit = (e) => {
+    e.preventDefault();
+    if (!role) { combo.focus(); return; }
+    const email = $("#email").value, name = email.split("@")[0].replace(/^\w/, (c) => c.toUpperCase());
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td><div class="who"><i style="background:#3A4750;color:#E6E9EC">${name.slice(0,2).toUpperCase()}</i><div>${name}<div class="email">${email}</div></div></div></td><td>${role}</td><td><span class="chip warn">Pending</span></td><td>—</td>`;
+    $("#rows").appendChild(tr);
+    $("#dlg").close();
+    $("#toast").hidden = false; setTimeout(() => { $("#toast").hidden = true; }, 4000);
+  };
+</script>
+</body>
+</html>
