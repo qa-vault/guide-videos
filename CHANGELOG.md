@@ -8,6 +8,8 @@ After `git pull`, run `npm install` when a release lists dependency changes, and
 the default voice settings invalidates the narration cache of every guide that does not pin
 them in `guides.config.local.json`.
 
+## [Unreleased]
+
 ## [0.1.1] - 2026-09-10
 
 ### Added

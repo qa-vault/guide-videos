@@ -351,6 +351,10 @@ npx playwright install chromium    # when the Playwright version changed
 
 Read [`CHANGELOG.md`](CHANGELOG.md) before pulling: a change to the default `voice.speed`, `voiceId` or model invalidates the narration cache of every guide, and re-synthesising costs credits. If you have pinned those in `guides.config.local.json`, your cache is unaffected by upstream changes. Releases are tagged (`v0.1.0`), so `git checkout v0.1.0` pins a known version.
 
+## 🤝 Contributing
+
+Issues and pull requests are welcome; see [`CONTRIBUTING.md`](CONTRIBUTING.md). `main` only changes through pull requests with a green CI run.
+
 ## 🧰 Troubleshooting
 
 | Symptom | Cause and fix |
