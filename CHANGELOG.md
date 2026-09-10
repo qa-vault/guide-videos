@@ -8,6 +8,19 @@ After `git pull`, run `npm install` when a release lists dependency changes, and
 the default voice settings invalidates the narration cache of every guide that does not pin
 them in `guides.config.local.json`.
 
+## [0.1.1] - 2026-09-10
+
+### Added
+- `g.point(target, line, ms)`: moves the cursor to `[x, y]` or a locator, speaks the line in
+  full, then pauses. Use it for "look here" beats in overview videos.
+
+### Fixed
+- Documentation of `g.say(line, ms)`: `ms` runs from the start of the line, and `g.moveTo` /
+  `g.sleep` do not wait for the line. A `say` followed by `moveTo` made the cursor run one
+  line ahead of the voice; use `g.point` for that.
+
+No dependency or Playwright changes; narration caches are unaffected.
+
 ## [0.1.0] - 2026-09-10
 
 ### Added

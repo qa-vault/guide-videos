@@ -82,15 +82,21 @@ from `examples/invite-teammate/scenario.mjs` and keep the same shape:
   page is usable.
 - `intro` / `outro` cards: `eyebrow` (short, mono), `title`, `text` (spoken).
 - One `scene` per chapter, 2–6 scenes. Each `run` does a few actions with the helpers on `g`:
-  `g.click(locator, line)`, `g.type(text)`, `g.key(key, line)`, `g.say(line, msAfter)`,
-  `g.hush()`, `g.sleep(ms)`.
+  `g.click(locator, line)`, `g.type(text)`, `g.key(key, line)`, `g.point(target, line, ms)`,
+  `g.say(line, ms)`, `g.hush()`, `g.sleep(ms)`.
 
 Writing the lines:
 
 - Spoken sentences, present tense, second person plural ("we open…", "click…"). One action
   per line. 6–18 words. No markup, no IDs, no file paths — it is read aloud.
 - Say where the control is when it is not obvious ("in the top-right corner").
-- Use `g.say(line, ms)` for beats where the viewer needs to look; 500–1500 ms is enough.
+- To point the cursor at something and talk about it, use `g.point(locator, line, ms)`: it
+  moves first, speaks the whole line, then pauses `ms`. Never `g.say` followed by `g.moveTo`:
+  `say` returns as soon as the line starts and `moveTo` does not wait for it, so the cursor
+  runs one line ahead of the voice. Every helper that speaks waits for the current line;
+  `g.moveTo` and `g.sleep` do not.
+- `g.say(line, ms)` is for a line about what is already on screen; `ms` runs from the start
+  of the line, 500–1500 ms is enough.
 - Wait for the UI after every action (`await page.getByRole(...).waitFor()`) before the next
   line; the recorder does not know what the product does.
 

@@ -73,7 +73,7 @@ export const ts = (ms) => {
 };
 
 /** The API scenario modules use: cursor, clicks, typing, narration cues and chapter marks. */
-class Guide {
+export class Guide {
   constructor(page, voice = new Map()) { this.page = page; this.voice = voice; this.t0 = Date.now(); this.x = SIZE.width / 2; this.y = SIZE.height / 2; this.cues = []; this.chapters = []; this.open = null; this.frames = []; this.pointer = { moves: [], clicks: [] }; }
   now() { return Date.now() - this.t0; } // t0 is reset to the first frame's timestamp by startCapture
   /** Narration audio for a line, when it was synthesised (voice.mjs). */
@@ -133,6 +133,21 @@ class Guide {
   }
   async say(text, ms = 0) { await this.cue(text); if (ms) await sleep(ms); }
   async hush() { await this.settle(); this.endCue(); }
+  /** Points at something and talks about it: moves the cursor to `target` ([x, y] or a locator),
+   *  then speaks `line`, waits until it has been spoken, then `ms` more. The next call starts after that. */
+  async point(target, line, ms = 0) {
+    let x, y;
+    if (Array.isArray(target)) [x, y] = target;
+    else {
+      const box = await target.boundingBox();
+      if (!box) throw new Error(`no box for ${line}`);
+      x = box.x + box.width / 2; y = box.y + box.height / 2;
+    }
+    await this.moveTo(x, y);
+    await this.say(line);
+    await this.hush();
+    if (ms) await sleep(ms);
+  }
   /** Moves the real mouse along an eased path and logs the segment; the visible cursor is
    *  drawn at build time from this log, so it is smooth whatever the capture rate. */
   async moveTo(x, y, ms = TIMING.moveMs) {
@@ -171,6 +186,7 @@ class DryGuide extends Guide {
   async say(text) { await this.cue(text); }
   async hush() {}
   async moveTo() {}
+  async point(_t, line) { await this.cue(line); }
   async click(_l, label) { if (label) await this.cue(label); }
   async type(_t, { label } = {}) { if (label) await this.cue(label); }
   async key(_k, label) { if (label) await this.cue(label); }

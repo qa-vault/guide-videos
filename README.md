@@ -189,13 +189,14 @@ export default {
 | `g.click(locator, label, { pause, ms })` | Eased cursor move to the element, click ripple, real click. `ms` overrides the travel time, `pause` the dwell before the click. |
 | `g.type(text, { label, delay })` | Types with a per-key delay (`timing.typeDelayMs` by default). |
 | `g.key(key, label, afterMs)` | Presses a key, then waits `afterMs` (`timing.afterKeyMs` by default). |
-| `g.say(text, ms)` | Starts a line, then waits `ms` *after* it has been spoken. |
+| `g.point(target, line, ms)` | Moves the cursor to `target` (`[x, y]` in CSS pixels, or a locator), then speaks `line`, waits until it is spoken, then `ms` more. For "look here" beats. |
+| `g.say(text, ms)` | Starts a line and waits `ms` from its *start*. The line keeps playing; the next helper that speaks waits for it to finish, `g.moveTo` and `g.sleep` do not. |
 | `g.hush()` | Waits for the current line to finish and closes it. |
-| `g.moveTo(x, y, ms)` | Moves the cursor without clicking (CSS pixels). |
+| `g.moveTo(x, y, ms)` | Moves the cursor without clicking (CSS pixels). Does not wait for the current line; use `g.point` to move *after* a line. |
 | `g.sleep(ms)` | Waits. |
 
 > [!TIP]
-> Write lines as spoken sentences and keep them short: the narration sets the rhythm of the whole video. Use `g.say(line, ms)` only for beats where the viewer needs a moment to look; the wait is added *after* the line, so 500–1500 ms is plenty.
+> Write lines as spoken sentences and keep them short: the narration sets the rhythm of the whole video. To point at something and talk about it, use `g.point(target, line, ms)`: the cursor arrives first, the line is spoken in full, then the pause. `g.say(line, ms)` is for a line that accompanies what is already on screen; its `ms` runs from the start of the line, so use it before a helper that speaks (which waits for the line anyway), not before `g.moveTo`.
 
 ### Testing a scenario cheaply
 

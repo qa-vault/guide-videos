@@ -4,7 +4,7 @@ import { mkdirSync, writeFileSync, rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "../config.mjs";
-import { configFor, loadScenario, collectLines, ts, vtt, ffmeta } from "../record.mjs";
+import { configFor, loadScenario, collectLines, ts, vtt, ffmeta, Guide } from "../record.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const base = loadConfig();
@@ -50,6 +50,7 @@ describe("collectLines", () => {
       await g.say("Look here", 800);
       await g.say("", 100);
       await g.hush();
+      await g.point([5, 5], "Point here", 10);
       await g.moveTo(1, 2, 100);
       await g.sleep(5);
     } },
@@ -60,7 +61,7 @@ describe("collectLines", () => {
   afterAll(() => rmSync(dir, { recursive: true, force: true }));
 
   it("collects the intro text, every labelled helper call in run order, then the outro text", async () => {
-    expect(await collectLines(id)).toEqual(["Intro line", "Click A", "Press Enter", "Look here", "Click B", "Type x", "Outro line"]);
+    expect(await collectLines(id)).toEqual(["Intro line", "Click A", "Press Enter", "Look here", "Point here", "Click B", "Type x", "Outro line"]);
   });
 
   it("loads the scenario's default export from videos/<id>/scenario.mjs", async () => {
@@ -72,6 +73,68 @@ describe("collectLines", () => {
 
   it("fails for an unknown guide id", async () => {
     await expect(loadScenario("__no-such-guide__")).rejects.toThrow();
+  });
+});
+
+describe("Guide.point", () => {
+  const fakePage = () => ({ mouse: { move: async () => {} } });
+
+  it("moves the cursor first, then speaks the whole line, then pauses, before returning", async () => {
+    const voice = new Map([["Look at this", { file: "x.wav", durationMs: 300 }]]);
+    const g = new Guide(fakePage(), voice);
+    const started = g.now();
+
+    await g.point([100, 200], "Look at this", 120);
+    const returned = g.now();
+
+    const [move] = g.pointer.moves;
+    const [cue] = g.cues;
+    expect(move.to).toEqual([100, 200]);
+    expect(cue.start).toBeGreaterThanOrEqual(move.t1); // the line opens only once the cursor has arrived
+    expect(g.open).toBeNull(); // the line is closed before point returns
+    expect(cue.end).toBeGreaterThanOrEqual(cue.start + 300);
+    expect(returned - started).toBeGreaterThanOrEqual(move.t1 - move.t0 + 300 + base.voice.tailMs + 120);
+    expect(cue).toMatchObject({ text: "Look at this", voice: "x.wav" });
+  });
+
+  it("fails clearly when the locator has no box", async () => {
+    const g = new Guide(fakePage(), new Map());
+
+    await expect(g.point({ boundingBox: async () => null }, "Ghost")).rejects.toThrow(/Ghost/);
+  });
+
+  it("accepts a locator and points at the centre of its box", async () => {
+    const g = new Guide(fakePage(), new Map());
+    const locator = { boundingBox: async () => ({ x: 10, y: 20, width: 100, height: 50 }) };
+
+    await g.point(locator, "Centre");
+
+    expect(g.pointer.moves[0].to).toEqual([60, 45]);
+    expect(g.cues[0].text).toBe("Centre");
+  });
+});
+
+describe("Guide.say", () => {
+  it("returns ms after the line starts, while the line is still playing", async () => {
+    const voice = new Map([["Long line", { file: "l.wav", durationMs: 600 }]]);
+    const g = new Guide({ mouse: { move: async () => {} } }, voice);
+    const started = g.now();
+
+    await g.say("Long line", 150);
+    const returned = g.now();
+
+    expect(returned - started).toBeGreaterThanOrEqual(150);
+    expect(returned - started).toBeLessThan(600);
+    expect(g.open).toMatchObject({ text: "Long line" });
+  });
+
+  it("returns immediately when no pause is asked for", async () => {
+    const g = new Guide({ mouse: { move: async () => {} } }, new Map([["L", { file: "l.wav", durationMs: 600 }]]));
+    const started = g.now();
+
+    await g.say("L");
+
+    expect(g.now() - started).toBeLessThan(50);
   });
 });
 
