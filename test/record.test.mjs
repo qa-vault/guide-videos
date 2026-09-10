@@ -81,7 +81,9 @@ describe("Guide.point", () => {
 
   it("moves the cursor first, then speaks the whole line, then pauses, before returning", async () => {
     const voice = new Map([["Look at this", { file: "x.wav", durationMs: 300 }]]);
-    const g = new Guide(fakePage(), voice);
+    let g;
+    let arrived = null, arrivedAt = null;
+    g = new Guide({ mouse: { move: async (x, y) => { arrived = [x, y]; arrivedAt = g.now(); } } }, voice);
     const started = g.now();
 
     await g.point([100, 200], "Look at this", 120);
@@ -90,10 +92,11 @@ describe("Guide.point", () => {
     const [move] = g.pointer.moves;
     const [cue] = g.cues;
     expect(move.to).toEqual([100, 200]);
-    expect(cue.start).toBeGreaterThanOrEqual(move.t1); // the line opens only once the cursor has arrived
+    expect(arrived).toEqual([100, 200]);
+    expect(cue.start).toBeGreaterThanOrEqual(arrivedAt); // the line opens only once the cursor has arrived
     expect(g.open).toBeNull(); // the line is closed before point returns
     expect(cue.end).toBeGreaterThanOrEqual(cue.start + 300);
-    expect(returned - started).toBeGreaterThanOrEqual(move.t1 - move.t0 + 300 + base.voice.tailMs + 120);
+    expect(returned - cue.start).toBeGreaterThanOrEqual(300 + base.voice.tailMs + 120 - 5); // timers may land a few ms early
     expect(cue).toMatchObject({ text: "Look at this", voice: "x.wav" });
   });
 
@@ -123,7 +126,7 @@ describe("Guide.say", () => {
     await g.say("Long line", 150);
     const returned = g.now();
 
-    expect(returned - started).toBeGreaterThanOrEqual(150);
+    expect(returned - started).toBeGreaterThanOrEqual(150 - 5); // timers may land a few ms early
     expect(returned - started).toBeLessThan(600);
     expect(g.open).toMatchObject({ text: "Long line" });
   });
